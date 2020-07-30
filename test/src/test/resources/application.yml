@@ -1,0 +1,6 @@
+# 开发配置
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/vote?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    username: jxw
+    password: KkBxvr864h4eVWk

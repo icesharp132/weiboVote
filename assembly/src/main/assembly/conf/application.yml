@@ -1,0 +1,26 @@
+server:
+  port: 8099
+
+spring:
+  profiles:
+    active: #spring.profiles.active#
+  application:
+    name: vote-service
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: true
+  datasource:
+    name: mysql
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: vote-jdbcpool
+    minimum-idle: 10
+    maximum-pool-size: 100
+    auto-commit: true
+    idle-timeout: 30000
+    max-lifetime: 1800000
+    connection-timeout: 30000
+
+mybatis:
+  mapper-locations: classpath:sqlmap/*Mapper.xml
+  type-aliases-package: cn.hui.dal.domain
+
