@@ -32,10 +32,9 @@ public class VoteApplication extends SpringBootServletInitializer {
 
     @Bean
     public AsyncTaskExecutor taskExecutor() {
-        int coreThreadNum = Runtime.getRuntime().availableProcessors();
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(coreThreadNum);
-        executor.setMaxPoolSize(coreThreadNum * 4);
+        executor.setCorePoolSize(40);
+        executor.setMaxPoolSize(40 * 4);
         executor.setQueueCapacity(1000);
         executor.setKeepAliveSeconds(600);
         executor.setThreadNamePrefix("vote-exec");

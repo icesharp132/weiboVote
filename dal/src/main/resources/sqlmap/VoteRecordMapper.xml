@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hui.vote.mapper.VoteRecordMapper">
+
+    <resultMap id="BaseResultMap" type="cn.hui.vote.dal.domain.VoteRecordDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="form_id" property="formId" jdbcType="BIGINT" />
+        <result column="vote" property="vote" jdbcType="VARCHAR" />
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        user_id,
+        form_id,
+        vote,
+        is_deleted,
+        gmt_create,
+        gmt_modify
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            vote_record
+        where
+            id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!--
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from
+            vote_record
+        where
+            id = #{id,jdbcType=BIGINT}
+    </delete>
+    -->
+
+    <update id="deleteByPrimaryKey" parameterType="cn.hui.vote.dal.domain.VoteRecordDO">
+        update
+          vote_record
+        set
+          is_deleted = 1,
+          gmt_modify = now()
+        where
+          id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="cn.hui.vote.dal.domain.VoteRecordDO">
+        insert into
+            vote_record
+        (
+            <include refid="Base_Column_List"/>
+        )
+        values (
+            #{id,jdbcType=BIGINT},
+            #{userId,jdbcType=BIGINT},
+            #{formId,jdbcType=BIGINT},
+            #{vote,jdbcType=VARCHAR},
+            0,
+            now(),
+            now()
+        )
+    </insert>
+
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"
+            parameterType="cn.hui.vote.dal.domain.VoteRecordDO">
+        insert into
+            vote_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="formId != null">
+                form_id,
+            </if>
+            <if test="vote != null">
+                vote,
+            </if>
+                gmt_modify
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="formId != null">
+                #{formId,jdbcType=BIGINT},
+            </if>
+            <if test="vote != null">
+                #{vote,jdbcType=VARCHAR},
+            </if>
+                now()
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="cn.hui.vote.dal.domain.VoteRecordDO">
+        update
+            vote_record
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="formId != null">
+                form_id = #{formId,jdbcType=BIGINT},
+            </if>
+            <if test="vote != null">
+                vote = #{vote,jdbcType=VARCHAR},
+            </if>
+                gmt_modify = now()
+        </set>
+        where
+            id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="cn.hui.vote.dal.domain.VoteRecordDO">
+        update
+            vote_record
+        set
+            user_id = #{userId,jdbcType=BIGINT},
+            form_id = #{formId,jdbcType=BIGINT},
+            vote = #{vote,jdbcType=VARCHAR},
+            gmt_modify = now()
+        where
+            id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

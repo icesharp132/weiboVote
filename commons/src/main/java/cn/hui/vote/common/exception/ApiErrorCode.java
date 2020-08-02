@@ -13,6 +13,8 @@ public enum ApiErrorCode implements IExceptionCode {
 
             API_INPUT_PARAM_ERORR(910000, "请求参数错误"),
 
+            VOTE_NOT_ALLOW_MULTI_ERORR(910001, "not allow multi"),
+
             API_AUTH_ERORR(990000, "api auth failed"),
 
             API_AUTH_EXPIRED_ERORR(990001, "request is expired"),
