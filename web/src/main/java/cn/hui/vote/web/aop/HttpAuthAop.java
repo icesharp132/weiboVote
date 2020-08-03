@@ -37,7 +37,7 @@ public class HttpAuthAop {
 
     private static final long   MAX_AUTH_TIMEOUT    = 5 * 60 * 1000;
 
-    private static final int    MAX_API_QPM         = 120;
+    private static final int    MAX_API_QPM         = 1200;
 
     @Pointcut("execution (public * cn.hui.web..*(..))")
     public void httpMethod() {

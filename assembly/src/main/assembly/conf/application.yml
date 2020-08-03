@@ -2,8 +2,6 @@ server:
   port: 8099
 
 spring:
-  profiles:
-    active: #spring.profiles.active#
   application:
     name: vote-service
   jackson:
@@ -24,3 +22,6 @@ mybatis:
   mapper-locations: classpath:sqlmap/*Mapper.xml
   type-aliases-package: cn.hui.dal.domain
 
+weibo:
+  appkey: 1452314314
+  appsecret: 36d5be80e0cbb2bb243685f479795074

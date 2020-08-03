@@ -14,7 +14,6 @@ import java.util.Date;
 @Data
 public class VoteRecordBO {
 
-    private static final long serialVersionUID = -1L;
     private Long    id;
     private Date gmtCreate;
     private Date    gmtModify;
