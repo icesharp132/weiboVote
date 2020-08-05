@@ -7,19 +7,10 @@ import lombok.Data;
  * @date 2020/8/5 02:10
  */
 @Data
-public class AddContentReq extends BaseRequest {
+public class VoteDetailReq extends BaseRequest {
     /**
      * form_id
      */
     private Long formId;
 
-    /**
-     * line_text
-     */
-    private String lineText;
-
-    /**
-     * line_pic
-     */
-    private String linePic;
 }

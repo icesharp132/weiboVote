@@ -41,6 +41,17 @@
             form_id = #{formId,jdbcType=BIGINT}
     </select>
 
+    <select id="getLastLineNum" parameterType="java.lang.Long" resultMap="java.lang.Integer">
+        select
+               line_num
+        from
+             vote_content
+        where
+                form_id = #{formId,jdbcType=BIGINT}
+        order by line_num desc
+        limit 1;
+    </select>
+
     <!--
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from

@@ -15,12 +15,14 @@ import lombok.Data;
  * @modified By:
  */
 @Data
-public  class BaseRequest implements Serializable {
+public class BaseRequest implements Serializable {
 
     private static final long serialVersionUID = -5404292701729828048L;
-    
-    protected String            token;
 
-    protected long              timestamp;
+    protected String          token;
+
+    protected Long            uid;
+
+    protected long            timestamp;
 
 }

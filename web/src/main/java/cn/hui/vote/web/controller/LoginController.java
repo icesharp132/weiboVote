@@ -48,6 +48,7 @@ public class LoginController {
         authParam.put("response_type", "code");
         authParam.put("redirect_uri", CALLBACK_URL_ACUTH);
 
+        //微博登录携带本系统token与投票页id
         JSONObject stateJson = new JSONObject();
         stateJson.put("token", token);
         stateJson.put("formId", formId);
@@ -60,6 +61,7 @@ public class LoginController {
     @RequestMapping("/auth/weibo/cb")
     public String weiboCallback(@RequestParam("code") String code, @RequestParam("state") String state) {
 
+        //获取access_token
         Map<String, Object> authParam = new HashMap<>();
         authParam.put("client_id", appKey);
         authParam.put("client_secret", appSecret);
@@ -70,6 +72,7 @@ public class LoginController {
         JSONObject authJson = JSON.parseObject(authResp);
         String accessToken = authJson.getString("access_token");
 
+        //获取用户信息
         Map<String, Object> showUserParam = new HashMap<>();
         showUserParam.put("access_token", accessToken);
         String userResp = OkHttpUtils.get(URL_USER, showUserParam);

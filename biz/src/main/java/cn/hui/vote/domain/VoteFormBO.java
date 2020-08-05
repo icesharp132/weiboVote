@@ -15,17 +15,17 @@ import java.util.Date;
 public class VoteFormBO {
 
     private Long    id;
-    private Date gmtCreate;
+    private Date    gmtCreate;
     private Date    gmtModify;
     /**
     * vote_name
     */
-    private String voteName;
+    private String  voteName;
 
     /**
     * creator_weibo_id
     */
-    private Long creatorWeiboId;
+    private Long    creatorWeiboId;
 
     private Integer multiVote;
 }

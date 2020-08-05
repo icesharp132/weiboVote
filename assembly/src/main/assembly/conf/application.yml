@@ -8,6 +8,9 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: true
   datasource:
+    url: jdbc:mysql://111.230.19.18:3306/vote?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    username: root
+    password:
     name: mysql
     type: com.zaxxer.hikari.HikariDataSource
     pool-name: vote-jdbcpool

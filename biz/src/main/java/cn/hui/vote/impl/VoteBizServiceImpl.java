@@ -49,8 +49,21 @@ public class VoteBizServiceImpl implements VoteBizService {
     }
 
     @Override
+    public VoteFormBO getVoteForm(long formId) {
+        VoteFormDO voteFormDO = voteFormMapper.selectByPrimaryKey(formId);
+        return BeanUtil.copy(voteFormDO, VoteFormBO.class);
+    }
+
+    @Override
     public long addVoteContent(VoteContentBO voteContentBO) {
         VoteContentDO voteContentDO = BeanUtil.copy(voteContentBO, VoteContentDO.class);
+        Integer lastLineNum = voteContentMapper.getLastLineNum(voteContentDO.getFormId());
+        if (lastLineNum == null) {
+            lastLineNum = 1;
+        } else {
+            lastLineNum = lastLineNum + 1;
+        }
+        voteContentDO.setLineNum(lastLineNum);
         voteContentMapper.insertSelective(voteContentDO);
         return voteContentDO.getId();
     }

@@ -27,12 +27,19 @@
             <h3>
                 创建投票
             </h3>
+            <h4>投票标题</h4>
             <hr>
             <div id="existData">
-
+                <p>这是选项1</p>
+                <img height="100" class="existImg"><br>
+                <button>删除</button>
+                <hr>
+                <p>这是选项2</p>
+                <img height="100" class="existImg"><br>
+                <button>删除</button>
+                <hr>
             </div>
             <div id="add">
-                <hr>
                 <h5>新增选项</h5>
                 <img id="imgPreview"><br>
                 <input type="hidden" id="imgData" name="imgData">
@@ -49,6 +56,17 @@
 </div>
 </body>
 <script language="JavaScript">
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
     function showImg() {
         var file = $("#imgFile");
         var imgData = $("#imgData");
@@ -58,46 +76,61 @@
         reader.readAsDataURL(file[0].files[0]);
         reader.onload = function (ev) {
             var imgBase64 = ev.target.result;
-            imgPreview.attr("height", "240");
+            imgPreview.attr("height", "120");
             imgPreview.attr("src", imgBase64);
+            $(".existImg").attr("src", imgBase64);
             imgData.val(imgBase64);
         }
     }
 
+    $(document).ready(function(){
+        var formId = getQueryVariable("formId");
+        $.ajax({
+            type: "POST",
+            url: "/vote/detail",
+            dataType: "json",
+            data: {formId:formId},
+            success: function (data) {
+                var html = "";
+                for (var i=0; i<data.length; i++) {
+                    html+="<p>" +data[i].lineText+ "</p>";
+                    html+="<img height='100' class='existImg' src=" +data[i].linePic+ "><br>";
+                    html+="<button onclick='deleteLine("+data[i].lineNum+")'>删除</button><hr>";
+                }
+                $("#existData").html(html);
+            }
+        });
+    }
+
+    function deleteLine(lineNum) {
+        var formId = getQueryVariable("formId");
+        $.ajax({
+            type: "POST",
+            url: "/vote/deleteLine",
+            dataType: "json",
+            data: {formId:formId, lineNum:lineNum},
+            success: function () {
+                location.reload();
+            }
+        });
+    }
+
     $('#save').click(function(){
+        var formId = getQueryVariable("formId");
         var imgData = $("#imgData").val();
         var desc = $("#desc").val();
         $.ajax({
             type: "POST",
-            url: "login",
-            data: {username:username,password:password},
-            success: function(data){
-                $.cookie('login_token', data, { expires: 1 });
-                $.cookie('ext_username', username, { expires: 1 });
-                $('#login').modal('hide');
-                $('#loginuser').text(username+",您好");
-                //登录成功加载列表
-                $.ajax({
-                    type: "POST",
-                    url: "getProductKeys",
-                    dataType: "json",
-                    data: {username:username},
-                    success: function(data){
-
-                        var html="<option value=''>--请选择--</option>";
-                        for(var i=0;i<data.length;i++){
-                            html+="<option value='"+data[i].productKey+"'>"+data[i].productName+" </option>";
-                        }
-                        $('#productkeyList').html(html);
-
-                    },
-                    error: function(data){
-
-                    }
-                });
+            url: "/vote/admin/addContent",
+            dataType: "json",
+            data: {formId:formId,linePic:imgData,lineText:desc},
+            success: function(){
+                location.reload();
+                // $.cookie('login_token', data, { expires: 1 });
+                // $.cookie('ext_username', username, { expires: 1 });
             },
             error: function(data){
-                alert("登录失败");
+                alert("添加失败:" + data);
             }
         });
 
