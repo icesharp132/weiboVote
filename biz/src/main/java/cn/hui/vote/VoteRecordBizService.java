@@ -11,4 +11,6 @@ public interface VoteRecordBizService {
     boolean check(long formId, long userId);
 
     void vote(VoteRecordBO voteRecordBO);
+
+    List<VoteRecordBO> listRecordByFormId(long formId);
 }

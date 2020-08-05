@@ -14,6 +14,8 @@ public interface VoteBizService {
 
     VoteFormBO getVoteForm(long formId);
 
+    VoteContentBO getVoteFormContent(long contentId);
+
     long addVoteContent(VoteContentBO voteContentBO);
 
     void delVoteContent(Long id);

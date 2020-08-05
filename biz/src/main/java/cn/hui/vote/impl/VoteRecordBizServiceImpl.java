@@ -16,12 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("voteRecordBizService")
 public class VoteRecordBizServiceImpl implements VoteRecordBizService {
 
     @Autowired
-    private VoteFormMapper voteFormMapper;
+    private VoteFormMapper   voteFormMapper;
 
     @Autowired
     private VoteRecordMapper voteRecordMapper;
@@ -44,6 +45,14 @@ public class VoteRecordBizServiceImpl implements VoteRecordBizService {
         }
         VoteRecordDO voteRecordDO = BeanUtil.copy(voteRecordBO, VoteRecordDO.class);
         voteRecordMapper.insertSelective(voteRecordDO);
+    }
+
+    @Override
+    public List<VoteRecordBO> listRecordByFormId(long formId) {
+        List<VoteRecordDO> recordDOList = voteRecordMapper.listByFormId(formId);
+        List<VoteRecordBO> recordBOList = recordDOList.stream()
+            .map(voteRecordDO -> BeanUtil.copy(voteRecordDO, VoteRecordBO.class)).collect(Collectors.toList());
+        return recordBOList;
     }
 
 }

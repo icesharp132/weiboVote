@@ -56,6 +56,12 @@ public class VoteBizServiceImpl implements VoteBizService {
     }
 
     @Override
+    public VoteContentBO getVoteFormContent(long contentId) {
+        VoteContentDO voteContentDO = voteContentMapper.selectByPrimaryKey(contentId);
+        return BeanUtil.copy(voteContentDO, VoteContentBO.class);
+    }
+
+    @Override
     public long addVoteContent(VoteContentBO voteContentBO) {
         VoteContentDO voteContentDO = BeanUtil.copy(voteContentBO, VoteContentDO.class);
         voteContentMapper.insertSelective(voteContentDO);

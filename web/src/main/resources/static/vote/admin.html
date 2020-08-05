@@ -78,9 +78,9 @@
                     var lineNum=i+1;
                     html+="<tr><td>" + lineNum + "</td>";
                     html+="<td>" + data[i].voteName + "</td>";
-                    html+="<td><a href='/vote/addVote.html?formId=" + data[i].id + "'>编辑</a>&emsp;";
-                    html+="<a href='/vote/vote.html?formId=" + data[i].id + "'>开始投票</a>&emsp;";
-                    html+="<a href='/admin/result?formId=" + data[i].id + "'>查票</a></td>";
+                    html+="<td><a target='_blank' href='/vote/addVote.html?formId=" + data[i].id + "'>编辑</a>&emsp;";
+                    html+="<a target='_blank' href='/vote/vote.html?formId=" + data[i].id + "'>开始投票</a>&emsp;";
+                    html+="<a target='_blank' href='/vote/admin/result?formId=" + data[i].id + "'>查票</a></td>";
                 }
                 $("#formList").html(html);
             }

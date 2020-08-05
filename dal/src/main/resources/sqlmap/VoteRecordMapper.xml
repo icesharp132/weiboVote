@@ -42,6 +42,15 @@
             user_id = #{userId}
     </select>
 
+    <select id="listByFormId" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            vote_record
+        where
+            form_id = #{formId}
+    </select>
+
     <!--
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from

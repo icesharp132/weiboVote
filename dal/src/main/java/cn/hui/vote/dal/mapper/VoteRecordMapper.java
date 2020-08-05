@@ -16,4 +16,5 @@ public interface VoteRecordMapper extends BaseMapper<VoteRecordDO> {
 
     // custom method
     List<VoteRecordDO> listByFormIdAndUserId(@Param("formId") Long formId, @Param("userId") Long userId);
+    List<VoteRecordDO> listByFormId(@Param("formId") Long formId);
 }
