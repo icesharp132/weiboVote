@@ -6,7 +6,7 @@ import cn.hui.vote.domain.VoteFormBO;
 import java.util.List;
 
 public interface VoteBizService {
-    long createVoteForm(VoteFormBO voteFormBO);
+    long createVoteForm(String  voteName);
 
     List<VoteFormBO> listVoteForm();
 
@@ -15,4 +15,6 @@ public interface VoteBizService {
     VoteFormBO getVoteForm(long formId);
 
     long addVoteContent(VoteContentBO voteContentBO);
+
+    void delVoteContent(Long id);
 }

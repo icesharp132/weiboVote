@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface VoteRecordBizService {
 
+    boolean check(long formId, long userId);
+
     void vote(VoteRecordBO voteRecordBO);
 }

@@ -24,8 +24,9 @@ public class VoteBizServiceImpl implements VoteBizService {
     private VoteContentMapper voteContentMapper;
 
     @Override
-    public long createVoteForm(VoteFormBO voteFormBO) {
-        VoteFormDO voteFormDO = BeanUtil.copy(voteFormBO, VoteFormDO.class);
+    public long createVoteForm(String voteName) {
+        VoteFormDO voteFormDO = new VoteFormDO();
+        voteFormDO.setVoteName(voteName);
         voteFormMapper.insertSelective(voteFormDO);
         return voteFormDO.getId();
     }
@@ -57,14 +58,12 @@ public class VoteBizServiceImpl implements VoteBizService {
     @Override
     public long addVoteContent(VoteContentBO voteContentBO) {
         VoteContentDO voteContentDO = BeanUtil.copy(voteContentBO, VoteContentDO.class);
-        Integer lastLineNum = voteContentMapper.getLastLineNum(voteContentDO.getFormId());
-        if (lastLineNum == null) {
-            lastLineNum = 1;
-        } else {
-            lastLineNum = lastLineNum + 1;
-        }
-        voteContentDO.setLineNum(lastLineNum);
         voteContentMapper.insertSelective(voteContentDO);
         return voteContentDO.getId();
+    }
+
+    @Override
+    public void delVoteContent(Long id) {
+        voteContentMapper.deleteByPrimaryKey(id);
     }
 }

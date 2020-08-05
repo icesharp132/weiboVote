@@ -16,6 +16,4 @@ public interface VoteContentMapper extends BaseMapper<VoteContentDO> {
 
     // custom method
     List<VoteContentDO> listByFormId(@Param("formId") Long formId);
-
-    Integer getLastLineNum(@Param("formId") Long formId);
 }

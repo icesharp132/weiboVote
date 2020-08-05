@@ -14,16 +14,10 @@ public class VoteContentDO extends BaseBean {
 
     private static final long serialVersionUID = -1L;
 
-
     /**
     * form_id
     */
     private Long formId;
-
-    /**
-    * line_num
-    */
-    private Integer lineNum;
 
     /**
     * line_text

@@ -24,11 +24,6 @@ public class VoteContentBO {
     private Long formId;
 
     /**
-    * line_num
-    */
-    private Integer lineNum;
-
-    /**
     * line_text
     */
     private String lineText;

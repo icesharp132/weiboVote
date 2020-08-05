@@ -1,6 +1,9 @@
 package cn.hui.vote.dal.mapper;
 
 import cn.hui.vote.dal.domain.VoteRecordDO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * VoteRecordMapper
@@ -12,5 +15,5 @@ import cn.hui.vote.dal.domain.VoteRecordDO;
 public interface VoteRecordMapper extends BaseMapper<VoteRecordDO> {
 
     // custom method
-
+    List<VoteRecordDO> listByFormIdAndUserId(@Param("formId") Long formId, @Param("userId") Long userId);
 }

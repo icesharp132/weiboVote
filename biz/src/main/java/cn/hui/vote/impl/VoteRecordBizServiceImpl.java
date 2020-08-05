@@ -13,6 +13,9 @@ import cn.hui.vote.dal.mapper.VoteRecordMapper;
 import cn.hui.vote.domain.VoteRecordBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 @Service("voteRecordBizService")
 public class VoteRecordBizServiceImpl implements VoteRecordBizService {
@@ -21,10 +24,13 @@ public class VoteRecordBizServiceImpl implements VoteRecordBizService {
     private VoteFormMapper voteFormMapper;
 
     @Autowired
-    private VoteContentMapper voteContentMapper;
-
-    @Autowired
     private VoteRecordMapper voteRecordMapper;
+
+    @Override
+    public boolean check(long formId, long userId) {
+        List<VoteRecordDO> recordDOList = voteRecordMapper.listByFormIdAndUserId(formId, userId);
+        return CollectionUtils.isEmpty(recordDOList);
+    }
 
     @Override
     public void vote(VoteRecordBO voteRecordBO) {

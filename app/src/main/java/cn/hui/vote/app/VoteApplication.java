@@ -18,7 +18,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
-@MapperScan(basePackages = { "cn.hui.dal.mapper" })
+@MapperScan(basePackages = { "cn.hui.vote.dal.mapper" })
 @ComponentScan(value = "cn.hui")
 @SpringBootApplication(exclude = { HibernateJpaAutoConfiguration.class })
 @EnableAsync
@@ -26,26 +26,11 @@ public class VoteApplication extends SpringBootServletInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(VoteApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(VoteApplication.class, args);
-        LOGGER.info("Application started...");
-    }
-
-    @Bean
-    public AsyncTaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(40);
-        executor.setMaxPoolSize(40 * 4);
-        executor.setQueueCapacity(1000);
-        executor.setKeepAliveSeconds(600);
-        executor.setThreadNamePrefix("vote-exec");
-
-        executor.setRejectedExecutionHandler(new RejectedExecutionHandler() {
-            @Override
-            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-                LOGGER.error("## St-Executor rejectedExecution.executor:{},runnable:{}", executor, r);
-            }
-        });
-
-        return executor;
+        try {
+            SpringApplication.run(VoteApplication.class, args);
+            LOGGER.info("Application started...");
+        } catch (Throwable t) {
+            System.exit(1);
+        }
     }
 }

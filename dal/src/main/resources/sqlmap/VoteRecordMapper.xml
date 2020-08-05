@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.hui.vote.mapper.VoteRecordMapper">
+<mapper namespace="cn.hui.vote.dal.mapper.VoteRecordMapper">
 
     <resultMap id="BaseResultMap" type="cn.hui.vote.dal.domain.VoteRecordDO">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_id" property="userId" jdbcType="BIGINT" />
         <result column="form_id" property="formId" jdbcType="BIGINT" />
         <result column="vote" property="vote" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
         <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify"/>
     </resultMap>
@@ -28,6 +29,17 @@
             vote_record
         where
             id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="listByFormIdAndUserId" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            vote_record
+        where
+            form_id = #{formId}
+        and
+            user_id = #{userId}
     </select>
 
     <!--
@@ -84,7 +96,7 @@
             <if test="vote != null">
                 vote,
             </if>
-                gmt_modify
+                gmt_create,gmt_modify
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -99,7 +111,7 @@
             <if test="vote != null">
                 #{vote,jdbcType=VARCHAR},
             </if>
-                now()
+                now(),now()
         </trim>
     </insert>
 

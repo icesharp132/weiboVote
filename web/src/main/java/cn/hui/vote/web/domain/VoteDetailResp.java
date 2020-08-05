@@ -32,6 +32,7 @@ public class VoteDetailResp {
     @Data
     public static class VoteContentVO {
 
+        private Long id;
         /**
          * line_text
          */
@@ -42,6 +43,5 @@ public class VoteDetailResp {
          */
         private String  linePic;
 
-        private Integer lineNum;
     }
 }

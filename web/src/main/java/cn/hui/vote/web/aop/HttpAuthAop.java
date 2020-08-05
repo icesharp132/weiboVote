@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import cn.hui.vote.common.exception.ApiErrorCode;
 import cn.hui.vote.common.exception.BizException;
-import cn.hui.vote.common.utils.EncryptUtil;
 import cn.hui.vote.web.domain.BaseRequest;
 import cn.hui.vote.web.domain.ResponseBean;
 import cn.hui.vote.web.util.TpsUtil;
@@ -27,8 +26,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
 
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class HttpAuthAop {
 
     private static final Logger LOGGER              = LoggerFactory.getLogger(HttpAuthAop.class);
@@ -39,7 +38,7 @@ public class HttpAuthAop {
 
     private static final int    MAX_API_QPM         = 1200;
 
-    @Pointcut("execution (public * cn.hui.web..*(..))")
+    @Pointcut("execution (public * cn.hui.vote.web..*(..))")
     public void httpMethod() {
     }
 
