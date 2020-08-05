@@ -49,7 +49,7 @@ public class VoteBizServiceImpl implements VoteBizService {
     }
 
     @Override
-    public long upsertVoteContent(VoteContentBO voteContentBO) {
+    public long addVoteContent(VoteContentBO voteContentBO) {
         VoteContentDO voteContentDO = BeanUtil.copy(voteContentBO, VoteContentDO.class);
         voteContentMapper.insertSelective(voteContentDO);
         return voteContentDO.getId();

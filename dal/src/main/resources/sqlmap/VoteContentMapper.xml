@@ -119,18 +119,6 @@
             </if>
                 now()
         </trim>
-        ON DUPLICATE KEY UPDATE
-        <set>
-            <if test="lineText != null">
-                line_text = #{lineText,jdbcType=VARCHAR},
-            </if>
-            <if test="linePic != null">
-                line_pic = #{linePic,jdbcType=VARCHAR},
-            </if>
-            gmt_modify = now()
-        </set>
-        where
-        id = #{id,jdbcType=BIGINT}
     </insert>
 
     <update id="updateByPrimaryKeySelective" parameterType="cn.hui.vote.dal.domain.VoteContentDO">

@@ -12,5 +12,5 @@ public interface VoteBizService {
 
     List<VoteContentBO> listContentByForm(long formId);
 
-    long upsertVoteContent(VoteContentBO voteContentBO);
+    long addVoteContent(VoteContentBO voteContentBO);
 }

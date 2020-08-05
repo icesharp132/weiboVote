@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+        </div>
+        <div class="span8">
+            <h3>
+                创建投票
+            </h3>
+            <hr>
+            <div id="existData">
+
+            </div>
+            <div id="add">
+                <hr>
+                <h5>新增选项</h5>
+                <img id="imgPreview"><br>
+                <input type="hidden" id="imgData" name="imgData">
+                <input type="file" id="imgFile" onchange="showImg()"><br>
+                <label>描述：</label><br>
+                <textarea id="desc" class="form-control" rows="2"></textarea>
+            </div>
+            <button id="save" class="btn" type="button">新增</button>
+
+        </div>
+        <div class="span2">
+        </div>
+    </div>
+</div>
+</body>
+<script language="JavaScript">
+    function showImg() {
+        var file = $("#imgFile");
+        var imgData = $("#imgData");
+        var imgPreview = $("#imgPreview");
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file[0].files[0]);
+        reader.onload = function (ev) {
+            var imgBase64 = ev.target.result;
+            imgPreview.attr("height", "240");
+            imgPreview.attr("src", imgBase64);
+            imgData.val(imgBase64);
+        }
+    }
+
+    $('#save').click(function(){
+        var imgData = $("#imgData").val();
+        var desc = $("#desc").val();
+        $.ajax({
+            type: "POST",
+            url: "login",
+            data: {username:username,password:password},
+            success: function(data){
+                $.cookie('login_token', data, { expires: 1 });
+                $.cookie('ext_username', username, { expires: 1 });
+                $('#login').modal('hide');
+                $('#loginuser').text(username+",您好");
+                //登录成功加载列表
+                $.ajax({
+                    type: "POST",
+                    url: "getProductKeys",
+                    dataType: "json",
+                    data: {username:username},
+                    success: function(data){
+
+                        var html="<option value=''>--请选择--</option>";
+                        for(var i=0;i<data.length;i++){
+                            html+="<option value='"+data[i].productKey+"'>"+data[i].productName+" </option>";
+                        }
+                        $('#productkeyList').html(html);
+
+                    },
+                    error: function(data){
+
+                    }
+                });
+            },
+            error: function(data){
+                alert("登录失败");
+            }
+        });
+
+    })
+</script>
+</html>
