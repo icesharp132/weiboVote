@@ -71,8 +71,6 @@
                 }
             });
         } else {
-            $.cookie('uid', uid, { expires: 1 });
-
             $.ajax({
                 type: "POST",
                 url: "/vote/detail",
@@ -87,7 +85,7 @@
                         html+="<input name=\"vote-line\" type=\"radio\" value=\"" +lineList[i].id+ "\"/>";
                         html+="<label>选项" + lineNum + "</label><br>";
                         html+="<p>" +lineList[i].lineText+ "</p>";
-                        html+="<img height='100' class='existImg' src=" +lineList[i].linePic+ "><br>";
+                        html+="<img height='100' class='existImg' src=" +lineList[i].linePic+ "><br><hr>";
                     }
                     $("#existData").html(html);
                     $("#title").html(data.voteName);

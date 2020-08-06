@@ -121,8 +121,6 @@
             data: JSON.stringify({formId:formId,linePic:imgData,lineText:desc}),
             success: function(){
                 location.reload();
-                // $.cookie('login_token', data, { expires: 1 });
-                // $.cookie('ext_username', username, { expires: 1 });
             },
             error: function(data){
                 alert("添加失败:" + data);
