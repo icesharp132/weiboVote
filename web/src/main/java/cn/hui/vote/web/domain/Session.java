@@ -11,4 +11,6 @@ public class Session {
     private String accessToken;
     private long uid;
     private String userName;
+
+    private long createTime = System.currentTimeMillis();
 }

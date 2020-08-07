@@ -67,10 +67,22 @@
         }
         return(null);
     }
+
+    function exit() {
+        alert($.cookie("login_token"));
+        alert($.cookie("username"));
+        alert($.cookie("wb_uid1"));
+        $.removeCookie("login_token");
+        $.removeCookie("username", {domain:'huiclub.cn',path:'/vote'});
+        $.removeCookie("wb_uid1", {domain:'huiclub.cn',path:'/vote'});
+        $.removeCookie("wb_uid1");
+        location.reload();
+    }
+
     $(document).ready(function(){
         var formId = getQueryVariable("formId");
         var token;
-        var uid = $.cookie('uid');
+        var uid = $.cookie('wb_uid1');
         // var uid = getQueryVariable("uid");
         if(uid == undefined || uid == null ||  uid == "null") {
             $.ajax({
@@ -78,7 +90,7 @@
                 url: "/vote/login/token?seed="+Math.random(),
                 success: function (data) {
                     token = data
-                    $.cookie('login_token', token, { expires: 1 });
+                    $.cookie('login_token', token);
 
                     $.ajax({
                         type: "GET",
@@ -91,7 +103,7 @@
             });
         } else {
             var username = $.cookie('username');
-            $("#username").html("你好：" + username);
+            $("#username").html("你好：" + username + "&nbsp;<a onclick='exit()'>退出</a>");
 
             $.ajax({
                 type: "POST",

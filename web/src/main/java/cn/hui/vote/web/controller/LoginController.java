@@ -46,6 +46,17 @@ public class LoginController {
         return token;
     }
 
+    @GetMapping("/needLogin")
+    public @ResponseBody boolean needLogin(@RequestParam("token") String token) {
+        Session session = SessionManager.getSession(token);
+        long timeDiff = System.currentTimeMillis() - session.getCreateTime();
+        if (timeDiff > 60 * 30 * 1000) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @RequestMapping("/url")
     public @ResponseBody String getLoginUrl(@RequestParam("token") String token, @RequestParam("formId") String formId) {
         Map<String, Object> authParam = new HashMap<>();
@@ -91,17 +102,18 @@ public class LoginController {
         session.setUid(uid);
 
         response.setHeader("Access-Control-Allow-Credentials","true");
-        Cookie cookie = new Cookie("uid", "" + uid);
+        Cookie cookie = new Cookie("wb_uid1", "" + uid);
         cookie.setDomain("huiclub.cn");
-        cookie.setPath("/");
+        cookie.setPath("/vote");
         cookie.setMaxAge(-1);
         response.addCookie(cookie);
 
         Cookie cookie2 = new Cookie("username", userName);
         cookie2.setDomain("huiclub.cn");
-        cookie2.setPath("/");
+        cookie2.setPath("/vote");
         cookie2.setMaxAge(-1);
         response.addCookie(cookie2);
+
         return "redirect:/vote/vote.html?formId=" + formId;
 
     }
