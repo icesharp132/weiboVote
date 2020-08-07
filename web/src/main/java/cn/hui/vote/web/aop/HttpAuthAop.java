@@ -2,7 +2,6 @@ package cn.hui.vote.web.aop;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,8 +9,6 @@ import cn.hui.vote.common.exception.ApiErrorCode;
 import cn.hui.vote.common.exception.BizException;
 import cn.hui.vote.web.domain.BaseRequest;
 import cn.hui.vote.web.domain.ResponseBean;
-import cn.hui.vote.web.util.TpsUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,26 +21,21 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.base.Strings;
 
-//@Component
-//@Aspect
+@Component
+@Aspect
 public class HttpAuthAop {
 
     private static final Logger LOGGER              = LoggerFactory.getLogger(HttpAuthAop.class);
 
-    private static final int    MAX_JSON_RESULT_LEN = 3000;
-
-    private static final long   MAX_AUTH_TIMEOUT    = 5 * 60 * 1000;
-
     private static final int    MAX_API_QPM         = 1200;
 
-    @Pointcut("execution (public * cn.hui.vote.web..*(..))")
+    @Pointcut("execution (public * cn.hui.vote.web.controller..*(..))")
     public void httpMethod() {
     }
 
     @Around("httpMethod()")
-    public Object http(ProceedingJoinPoint pjp) {
+    public Object http(ProceedingJoinPoint pjp) throws Throwable {
 
         long start = System.currentTimeMillis();
 
@@ -65,37 +57,25 @@ public class HttpAuthAop {
         Object response = null;
 
         try {
-            BaseRequest requestBean = (BaseRequest) args[0];
-            checkToken(requestBean);
             response = pjp.proceed();
-            if (response != null) {
-                if (response instanceof ResponseBean) {
-                    ResponseBean<?> result = (ResponseBean<?>) response;
-                    /* Code默认值为-1，修改为200 */
-                    if (result.getCode() == -1) {
-                        result.setCode(ApiErrorCode.SUCCESS.getCode());
-                    }
-                }
-            }
-        } catch (BizException e) {
-            response = handleException(e.getErrorCode(), e.getMessage());
-            LOGGER.warn("Http request {} fail, errCode: {}, errMsg: {}, args: {}, resp: {}, start: {}, time: {}",
-                methodFullName, e.getErrorCode(), e.getMessage(), Arrays.toString(args), JSON.toJSONString(response),
-                start, (System.currentTimeMillis() - start), e);
-        } catch (IllegalArgumentException e) {
-            response = handleException(ApiErrorCode.API_INPUT_PARAM_ERORR.getCode(), e.getMessage());
-            LOGGER.warn("Http request {} fail, args: {}, resp: {}", methodFullName, Arrays.toString(args),
-                JSON.toJSONString(response), e);
+//        } catch (BizException e) {
+//            response = handleException(e.getErrorCode(), e.getMessage());
+//            LOGGER.warn("Http request {} fail, errCode: {}, errMsg: {}, args: {}, resp: {}, start: {}, time: {}",
+//                methodFullName, e.getErrorCode(), e.getMessage(), Arrays.toString(args), JSON.toJSONString(response),
+//                start, (System.currentTimeMillis() - start), e);
+//        } catch (IllegalArgumentException e) {
+//            response = handleException(ApiErrorCode.API_INPUT_PARAM_ERORR.getCode(), e.getMessage());
+//            LOGGER.warn("Http request {} fail, args: {}, resp: {}", methodFullName, Arrays.toString(args),
+//                JSON.toJSONString(response), e);
         } catch (Throwable t) {
-            response = handleException(ApiErrorCode.SYSTEM_ERROR);
-
-            LOGGER.error("Http request {} error, args: {}, resp: {}, start: {}, proc time: {}", methodFullName, Arrays.toString(args),
-                    JSON.toJSONString(response), start, (System.currentTimeMillis() - start), t);
+//            response = handleException(ApiErrorCode.SYSTEM_ERROR);
+            LOGGER.error("Http request {} error, args: {}, start: {}, proc time: {}", methodFullName, Arrays.toString(args),
+                 start, (System.currentTimeMillis() - start), t);
+            throw t;
         } finally {
             String argsString = Arrays.toString(args);
-
-            LOGGER.info("Http request {} finish, args: {}, resp: {}, start: {}, proc time: {}", methodFullName, argsString,
-                JSON.toJSONString(response), start, (System.currentTimeMillis() - start));
+            LOGGER.info("Http request {} finish, args: {}, start: {}, proc time: {}", methodFullName, argsString,
+                 start, (System.currentTimeMillis() - start));
         }
 
         return response;

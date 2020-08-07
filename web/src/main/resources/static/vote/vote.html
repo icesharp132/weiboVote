@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Title</title>
+    <title>团服投票-投票</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -26,11 +26,30 @@
         <div class="col-sm">
         </div>
         <div class="col-sm">
+            <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand" href="#">
+                    <img src="img/logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+                    团服投票
+                </a>
+                <span class="navbar-text" id="username">
+
+                </span>
+            </nav>
+        </div>
+        <div class="col-sm">
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
             <div style="text-align: center;"><h4 id="title"></h4></div>
             <hr>
             <div id="existData">
             </div>
-            <button id="vote" class="btn" type="button">投票</button>
+            <button id="vote" class="btn btn-primary btn-lg btn-block" type="button">投票</button>
         </div>
         <div class="col-sm">
         </div>
@@ -71,6 +90,9 @@
                 }
             });
         } else {
+            var username = $.cookie('username');
+            $("#username").html("你好：" + username);
+
             $.ajax({
                 type: "POST",
                 url: "/vote/detail",
@@ -98,6 +120,10 @@
     $('#vote').click(function(){
         var formId = getQueryVariable("formId");
         var id = $('input:radio:checked').val();
+        if (id == undefined || id == null) {
+            alert("请选好再投哦");
+            return;
+        }
         var uid = $.cookie('uid');
         $.ajax({
             type: "POST",

@@ -76,7 +76,8 @@ public class VoteController {
         boolean pass = voteRecordBizService.check(voteReq.getFormId(), voteReq.getUid());
         Map<String, String> result = new HashMap<>();
         if (pass) {
-            VoteRecordBO recordBO = BeanUtil.copy(voteReq, VoteRecordBO.class);
+            VoteRecordBO recordBO = new VoteRecordBO();
+            recordBO.setFormId(voteReq.getFormId());
             recordBO.setUserId(voteReq.getUid());
             recordBO.setVote(voteReq.getId().toString());
             voteRecordBizService.vote(recordBO);

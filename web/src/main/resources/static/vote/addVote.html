@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Title</title>
+    <title>团服投票-编辑</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -21,7 +21,23 @@
     <div class="row">
         <div class="col-sm">
         </div>
+        <div class="col-sm-8">
+            <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand" href="#">
+                    <img src="img/logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+                    团服投票
+                </a>
+            </nav>
+        </div>
         <div class="col-sm">
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm-8">
             <h3>
                 编辑投票
             </h3>
@@ -37,7 +53,7 @@
                 <label>描述：</label><br>
                 <textarea id="desc" class="form-control" rows="2"></textarea>
             </div>
-            <button id="save" class="btn" type="button">新增</button>
+            <button id="save" class="btn btn-success" type="button">新增</button>
 
         </div>
         <div class="col-sm">
@@ -86,8 +102,8 @@
                 for (var i=0; i<lineList.length; i++) {
                     var lineNum = i+1;
                     html+="<label>选项" + lineNum + "</label><br><p>" +lineList[i].lineText+ "</p>";
-                    html+="<img height='100' class='existImg' src=" +lineList[i].linePic+ "><br>";
-                    html+="<button onclick='deleteLine("+lineList[i].id+")'>删除</button><hr>";
+                    html+="<img class='img' height='120' src=" +lineList[i].linePic+ "><br>";
+                    html+="<button class='btn btn-danger' onclick='deleteLine("+lineList[i].id+")' style=\"margin-top: 10px;\">删除</button><hr>";
                 }
                 $("#existData").html(html);
                 $("#title").html(data.voteName);
@@ -123,7 +139,8 @@
                 location.reload();
             },
             error: function(data){
-                alert("添加失败:" + data);
+                var msg = JSON.stringify(data);
+                alert("添加失败:" + msg);
             }
         });
 

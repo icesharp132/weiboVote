@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Title</title>
+    <title>团服投票-管理页</title>
 
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -21,6 +21,22 @@
 </head>
 <body>
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm-8">
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img src="img/logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+                团服投票
+            </a>
+        </nav>
+        </div>
+        <div class="col-sm">
+        </div>
+    </div>
+    <br>
+
     <div class="row">
         <div class="col-sm">
         </div>
@@ -42,11 +58,10 @@
 
                 </tbody>
             </table>
-
             <hr>
-            <label>创建新投票</label><br>
+            <h5>创建新投票</h5>
             <label>标题：</label><input type="text" id="addName">
-            <button id="add" class="btn" type="button">创建投票</button>
+            <button id="add" class="btn btn-danger" type="button">创建投票</button>
         </div>
         <div class="col-sm">
         </div>
@@ -76,7 +91,11 @@
                 var html = "";
                 for (var i=0; i<data.length; i++) {
                     var lineNum=i+1;
-                    html+="<tr><td>" + lineNum + "</td>";
+                    if (lineNum%2 == 1) {
+                        html+="<tr><td>" + lineNum + "</td>";
+                    } else {
+                        html+="<tr><td>" + lineNum + "</td>";
+                    }
                     html+="<td>" + data[i].voteName + "</td>";
                     html+="<td><a target='_blank' href='/vote/addVote.html?formId=" + data[i].id + "'>编辑</a>&emsp;";
                     html+="<a target='_blank' href='/vote/vote.html?formId=" + data[i].id + "'>开始投票</a>&emsp;";

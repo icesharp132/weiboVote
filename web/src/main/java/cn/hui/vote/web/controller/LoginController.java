@@ -92,10 +92,16 @@ public class LoginController {
 
         response.setHeader("Access-Control-Allow-Credentials","true");
         Cookie cookie = new Cookie("uid", "" + uid);
-        cookie.setDomain("www.huiclub.cn");
+        cookie.setDomain("huiclub.cn");
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 30);
+        cookie.setMaxAge(-1);
         response.addCookie(cookie);
+
+        Cookie cookie2 = new Cookie("username", userName);
+        cookie2.setDomain("huiclub.cn");
+        cookie2.setPath("/");
+        cookie2.setMaxAge(-1);
+        response.addCookie(cookie2);
         return "redirect:/vote/vote.html?formId=" + formId;
 
     }
