@@ -69,36 +69,64 @@
     }
 
     function exit() {
-        alert($.cookie("login_token"));
-        alert($.cookie("username"));
-        alert($.cookie("wb_uid1"));
-        $.removeCookie("login_token");
-        $.removeCookie("username", {domain:'huiclub.cn',path:'/vote'});
-        $.removeCookie("wb_uid1", {domain:'huiclub.cn',path:'/vote'});
-        $.removeCookie("wb_uid1");
-        location.reload();
+        // alert($.cookie("login_token"));
+        // alert($.cookie("username"));
+        // alert($.cookie("wb_uid1"));
+        // $.removeCookie("login_token");
+        // $.removeCookie("username", {domain:'huiclub.cn',path:'/vote'});
+        // $.removeCookie("wb_uid1", {domain:'huiclub.cn',path:'/vote'});
+        // $.removeCookie("wb_uid1");
+        // WB2.login(function() {
+        //     alert("退出登录")
+        //     location.reload();
+        // });
+        // WB2.logout(function() {
+        //     alert("退出登录")
+        //     location.reload();
+        // });
+        var token = $.cookie("login_token");
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/vote/login/logout?token=" + token,
+            success: function (data) {
+                alert("已退出登录");
+                location.reload();
+            }
+        });
     }
 
     $(document).ready(function(){
         var formId = getQueryVariable("formId");
-        var token;
-        var uid = $.cookie('wb_uid1');
-        // var uid = getQueryVariable("uid");
-        if(uid == undefined || uid == null ||  uid == "null") {
+        var token = $.cookie("login_token");
+        var needLogin = false;
+        if (token == undefined || token == null) {
+            needLogin = true;
+        } else {
             $.ajax({
                 type: "GET",
-                url: "/vote/login/token?seed="+Math.random(),
+                async: false,
+                url: "/vote/login/needLogin?token=" + token,
+                success: function (need) {
+                    needLogin = need;
+                }
+            });
+        }
+        if (needLogin) {
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: "/vote/login/token?seed=" + Math.random(),
                 success: function (data) {
                     token = data
                     $.cookie('login_token', token);
-
-                    $.ajax({
-                        type: "GET",
-                        url: "/vote/login/url?formId="+formId+"&token="+token,
-                        success: function (data) {
-                            location.href=data;
-                        }
-                    });
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "/vote/login/url?formId="+formId+"&token="+token,
+                success: function (data) {
+                    location.href=data;
                 }
             });
         } else {
@@ -126,6 +154,52 @@
                 }
             });
         }
+
+        //
+        // var uid = $.cookie('wb_uid1');
+        // // var uid = getQueryVariable("uid");
+        // if(uid == undefined || uid == null ||  uid == "null") {
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "/vote/login/token?seed="+Math.random(),
+        //         success: function (data) {
+        //             token = data
+        //             $.cookie('login_token', token);
+        //
+        //             $.ajax({
+        //                 type: "GET",
+        //                 url: "/vote/login/url?formId="+formId+"&token="+token,
+        //                 success: function (data) {
+        //                     location.href=data;
+        //                 }
+        //             });
+        //         }
+        //     });
+        // } else {
+        //     var username = $.cookie('username');
+        //     $("#username").html("你好：" + username + "&nbsp;<a onclick='exit()'>退出</a>");
+        //
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/vote/detail",
+        //         dataType: "json",
+        //         contentType: "application/json; charset=utf-8",
+        //         data: JSON.stringify({formId:formId}),
+        //         success: function (data) {
+        //             var lineList = data.contentList;
+        //             var html = "";
+        //             for (var i=0; i<lineList.length; i++) {
+        //                 var lineNum = i+1;
+        //                 html+="<input name=\"vote-line\" type=\"radio\" value=\"" +lineList[i].id+ "\"/>";
+        //                 html+="<label>选项" + lineNum + "</label><br>";
+        //                 html+="<p>" +lineList[i].lineText+ "</p>";
+        //                 html+="<img height='100' class='existImg' src=" +lineList[i].linePic+ "><br><hr>";
+        //             }
+        //             $("#existData").html(html);
+        //             $("#title").html(data.voteName);
+        //         }
+        //     });
+        // }
 
     });
 

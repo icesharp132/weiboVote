@@ -5,8 +5,7 @@ import cn.hui.vote.web.domain.Session;
 import cn.hui.vote.web.util.SessionManager;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.codec.digest.Md5Crypt;
-import org.apache.tomcat.util.security.MD5Encoder;
+import org.jboss.netty.handler.codec.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -37,6 +36,8 @@ public class LoginController {
 
     private static String URL_ACCESS = "https://api.weibo.com/oauth2/access_token";
 
+    private static String URL_REMOVE_AUTH = "https://api.weibo.com/oauth2/revokeoauth2";
+
     private static String URL_USER = "https://api.weibo.com/2/users/show.json";
 
     @GetMapping("/token")
@@ -49,12 +50,29 @@ public class LoginController {
     @GetMapping("/needLogin")
     public @ResponseBody boolean needLogin(@RequestParam("token") String token) {
         Session session = SessionManager.getSession(token);
+        if (session == null) {
+            return true;
+        }
         long timeDiff = System.currentTimeMillis() - session.getCreateTime();
         if (timeDiff > 60 * 30 * 1000) {
+            logout(token);
             return true;
         } else {
             return false;
         }
+    }
+
+    @GetMapping("/logout")
+    public @ResponseBody String logout(@RequestParam("token") String token) {
+        Session session = SessionManager.getSession(token);
+        if (session == null) {
+            return "";
+        }
+        Map<String, Object> param = new HashMap<>();
+        param.put("access_token", session.getAccessToken());
+        String response = OkHttpUtils.get(URL_REMOVE_AUTH, param);
+        SessionManager.removeSession(token);
+        return response;
     }
 
     @RequestMapping("/url")

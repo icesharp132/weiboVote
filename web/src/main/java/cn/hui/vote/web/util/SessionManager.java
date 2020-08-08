@@ -23,4 +23,8 @@ public class SessionManager {
         return sessionMap.get(token);
     }
 
+    public static Session removeSession(String token) {
+        return sessionMap.remove(token);
+    }
+
 }
