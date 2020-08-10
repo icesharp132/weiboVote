@@ -18,7 +18,8 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-    <script src="//tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1452314314" type="text/javascript" charset="utf-8"></script>
+    <script src="//tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1452314314" type="text/javascript"
+            charset="utf-8"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -28,7 +29,8 @@
         <div class="col-sm">
             <nav class="navbar navbar-light bg-light">
                 <a class="navbar-brand" href="#">
-                    <img src="img/logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+                    <img src="img/logo.jpg" width="30" height="30" class="d-inline-block align-top" alt=""
+                         loading="lazy">
                     团服投票
                 </a>
                 <span class="navbar-text" id="username">
@@ -54,18 +56,29 @@
         <div class="col-sm">
         </div>
     </div>
+
+    <div id="ShowImage_Form" class="modal hide">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button"></button>
+        </div>
+        <div class="modal-body">
+            <div id="img_show">
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script language="JavaScript">
-    function getQueryVariable(variable)
-    {
+    function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
+        for (var i = 0; i < vars.length; i++) {
             var pair = vars[i].split("=");
-            if(pair[0] == variable){return pair[1];}
+            if (pair[0] == variable) {
+                return pair[1];
+            }
         }
-        return(null);
+        return (null);
     }
 
     function exit() {
@@ -96,7 +109,18 @@
         });
     }
 
-    $(document).ready(function(){
+    function shadeIn(obj)
+    {
+        var source = obj.src;
+        $("#ShowImage_Form").find("#img_show").html("<image src='"+source+"' class='carousel-inner img-responsive img-rounded' onclick='shadeOut()' />");
+        $("#ShowImage_Form").modal();
+    }
+
+    function shadeOut() {
+        $("#ShowImage_Form").modal("hide");
+    }
+
+    $(document).ready(function () {
         var formId = getQueryVariable("formId");
         var token = $.cookie("login_token");
         var needLogin = false;
@@ -124,9 +148,9 @@
             });
             $.ajax({
                 type: "GET",
-                url: "/vote/login/url?formId="+formId+"&token="+token,
+                url: "/vote/login/url?formId=" + formId + "&token=" + token,
                 success: function (data) {
-                    location.href=data;
+                    location.href = data;
                 }
             });
         } else {
@@ -141,16 +165,16 @@
                 url: "/vote/detail",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({formId:formId}),
+                data: JSON.stringify({formId: formId}),
                 success: function (data) {
                     var lineList = data.contentList;
                     var html = "";
-                    for (var i=0; i<lineList.length; i++) {
-                        var lineNum = i+1;
-                        html+="<input name=\"vote-line\" type=\"radio\" value=\"" +lineList[i].id+ "\"/>";
-                        html+="<label>选项" + lineNum + "</label><br>";
-                        html+="<p>" +lineList[i].lineText+ "</p>";
-                        html+="<img height='100' class='existImg' src=" +lineList[i].linePic+ "><br><hr>";
+                    for (var i = 0; i < lineList.length; i++) {
+                        var lineNum = i + 1;
+                        html += "<input name=\"vote-line\" type=\"radio\" value=\"" + lineList[i].id + "\"/>";
+                        html += "<label>选项" + lineNum + "</label><br>";
+                        html += "<p>" + lineList[i].lineText + "</p>";
+                        html += "<img onclick='shadeIn(this)' height='100' class='existImg' src=" + lineList[i].linePic + "><br><hr>";
                     }
                     $("#existData").html(html);
                     $("#title").html(data.voteName);
@@ -158,55 +182,9 @@
             });
         }
 
-        //
-        // var uid = $.cookie('wb_uid1');
-        // // var uid = getQueryVariable("uid");
-        // if(uid == undefined || uid == null ||  uid == "null") {
-        //     $.ajax({
-        //         type: "GET",
-        //         url: "/vote/login/token?seed="+Math.random(),
-        //         success: function (data) {
-        //             token = data
-        //             $.cookie('login_token', token);
-        //
-        //             $.ajax({
-        //                 type: "GET",
-        //                 url: "/vote/login/url?formId="+formId+"&token="+token,
-        //                 success: function (data) {
-        //                     location.href=data;
-        //                 }
-        //             });
-        //         }
-        //     });
-        // } else {
-        //     var username = $.cookie('username');
-        //     $("#username").html("你好：" + username + "&nbsp;<a onclick='exit()'>退出</a>");
-        //
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/vote/detail",
-        //         dataType: "json",
-        //         contentType: "application/json; charset=utf-8",
-        //         data: JSON.stringify({formId:formId}),
-        //         success: function (data) {
-        //             var lineList = data.contentList;
-        //             var html = "";
-        //             for (var i=0; i<lineList.length; i++) {
-        //                 var lineNum = i+1;
-        //                 html+="<input name=\"vote-line\" type=\"radio\" value=\"" +lineList[i].id+ "\"/>";
-        //                 html+="<label>选项" + lineNum + "</label><br>";
-        //                 html+="<p>" +lineList[i].lineText+ "</p>";
-        //                 html+="<img height='100' class='existImg' src=" +lineList[i].linePic+ "><br><hr>";
-        //             }
-        //             $("#existData").html(html);
-        //             $("#title").html(data.voteName);
-        //         }
-        //     });
-        // }
-
     });
 
-    $('#vote').click(function(){
+    $('#vote').click(function () {
         var formId = getQueryVariable("formId");
         var id = $('input:radio:checked').val();
         if (id == undefined || id == null) {
@@ -219,11 +197,11 @@
             url: "/vote/vote",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            data: JSON.stringify({formId:formId,id:id,uid:uid}),
-            success: function(data){
+            data: JSON.stringify({formId: formId, id: id, uid: uid}),
+            success: function (data) {
                 alert("投票成功");
             },
-            error: function(data){
+            error: function (data) {
                 alert("投票失败:" + data);
             }
         });
