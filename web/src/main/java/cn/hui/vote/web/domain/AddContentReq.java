@@ -22,4 +22,16 @@ public class AddContentReq extends BaseRequest {
      * line_pic
      */
     private String linePic;
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("AddContentReq{");
+        sb.append("formId=").append(formId);
+        sb.append(", lineText='").append(lineText).append('\'');
+        sb.append(", token='").append(token).append('\'');
+        sb.append(", uid=").append(uid);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append('}');
+        return sb.toString();
+    }
 }

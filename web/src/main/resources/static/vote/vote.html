@@ -130,8 +130,11 @@
                 }
             });
         } else {
-            var username = $.cookie('username');
-            $("#username").html("你好：" + username + "&nbsp;<a onclick='exit()'>退出</a>");
+            // var username = $.cookie('username');
+            // username = decodeURI(username);
+            // $("#username").html("你好：" + username + "&nbsp;<a onclick='exit()'>切换</a>");
+            var uid = $.cookie('wb_uid1');
+            $("#username").html("微博用户" + uid + "&nbsp;<a onclick='exit()'>切换</a>");
 
             $.ajax({
                 type: "POST",
@@ -210,7 +213,7 @@
             alert("请选好再投哦");
             return;
         }
-        var uid = $.cookie('uid');
+        var uid = $.cookie('wb_uid1');
         $.ajax({
             type: "POST",
             url: "/vote/vote",
@@ -218,8 +221,7 @@
             dataType: "json",
             data: JSON.stringify({formId:formId,id:id,uid:uid}),
             success: function(data){
-                alert(data.msg);
-                location.reload();
+                alert("投票成功");
             },
             error: function(data){
                 alert("投票失败:" + data);

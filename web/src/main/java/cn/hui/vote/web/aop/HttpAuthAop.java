@@ -6,7 +6,6 @@ import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 
 import cn.hui.vote.common.exception.ApiErrorCode;
-import cn.hui.vote.common.exception.BizException;
 import cn.hui.vote.web.domain.BaseRequest;
 import cn.hui.vote.web.domain.ResponseBean;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,8 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import com.alibaba.fastjson.JSON;
 
 @Component
 @Aspect

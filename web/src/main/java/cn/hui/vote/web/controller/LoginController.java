@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,19 +106,19 @@ public class LoginController {
         long uid = authJson.getLongValue("uid");
 
         //获取用户信息
-        Map<String, Object> showUserParam = new HashMap<>();
-        showUserParam.put("access_token", accessToken);
-        showUserParam.put("uid", uid);
-        String userResp = OkHttpUtils.get(URL_USER, showUserParam);
-        JSONObject userJson = JSON.parseObject(userResp);
-        String userName = userJson.getString("screen_name");
+//        Map<String, Object> showUserParam = new HashMap<>();
+//        showUserParam.put("access_token", accessToken);
+//        showUserParam.put("uid", uid);
+//        String userResp = OkHttpUtils.get(URL_USER, showUserParam);
+//        JSONObject userJson = JSON.parseObject(userResp);
+//        String userName = userJson.getString("screen_name");
 
         String[] idtToken = state.split(",");
         String formId = idtToken[0];
         String token = idtToken[1];
         Session session = SessionManager.getSession(token);
         session.setAccessToken(accessToken);
-        session.setUserName(userName);
+//        session.setUserName(userName);
         session.setUid(uid);
 
         response.setHeader("Access-Control-Allow-Credentials","true");
@@ -126,11 +128,17 @@ public class LoginController {
         cookie.setMaxAge(-1);
         response.addCookie(cookie);
 
-        Cookie cookie2 = new Cookie("username", userName);
-        cookie2.setDomain("huiclub.cn");
-        cookie2.setPath("/vote");
-        cookie2.setMaxAge(-1);
-        response.addCookie(cookie2);
+//        try {
+//            userName = URLEncoder.encode(userName, "utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//        Cookie cookie2 = new Cookie("username", userName);
+//        cookie2.setDomain("huiclub.cn");
+//        cookie2.setPath("/vote");
+//        cookie2.setMaxAge(-1);
+//        response.addCookie(cookie2);
+//        System.out.println("uid:" +uid + ", username:"+userName);
 
         return "redirect:/vote/vote.html?formId=" + formId;
 

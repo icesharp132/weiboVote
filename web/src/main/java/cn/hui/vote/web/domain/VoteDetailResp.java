@@ -43,5 +43,13 @@ public class VoteDetailResp {
          */
         private String  linePic;
 
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("VoteContentVO{");
+            sb.append("id=").append(id);
+            sb.append(", lineText='").append(lineText).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
     }
 }
