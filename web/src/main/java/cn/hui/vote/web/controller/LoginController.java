@@ -43,7 +43,7 @@ public class LoginController {
     private static String URL_USER = "https://api.weibo.com/2/users/show.json";
 
     @GetMapping("/token")
-    public @ResponseBody String getLoginUrl(@RequestParam("seed") String seed) {
+    public @ResponseBody String token(@RequestParam("seed") String seed) {
         String token = DigestUtils.md5DigestAsHex(seed.getBytes());
         SessionManager.newSession(token);
         return token;
@@ -139,6 +139,15 @@ public class LoginController {
 //        cookie2.setMaxAge(-1);
 //        response.addCookie(cookie2);
 //        System.out.println("uid:" +uid + ", username:"+userName);
+        if (formId != null && Integer.parseInt(formId) == 999) {
+            return "redirect:/vote/voteStatic.html";
+        }
+        if (formId != null && Integer.parseInt(formId) == 998) {
+            return "redirect:/vote/voteShirt.html";
+        }
+        if (formId != null && Integer.parseInt(formId) == 997) {
+            return "redirect:/vote/voteHat.html";
+        }
 
         return "redirect:/vote/vote.html?formId=" + formId;
 

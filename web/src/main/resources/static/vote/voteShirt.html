@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>团服投票-投票</title>
+    <title>团服投票</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -47,11 +47,32 @@
         <div class="col-sm">
         </div>
         <div class="col-sm">
-            <div style="text-align: center;"><h4 id="title"></h4></div>
+            <div style="text-align: center;"><h4 id="title">T恤投票</h4><p>（设计版权为设计师所有，未经允许不得私自使用）</p></div>
             <hr>
             <div id="existData">
+                <input name="vote-line" type="radio" value="1"/>
+                <label>选项1</label><br>
+                <p>设计思路:上面是弯弯的月亮，然后水月老师最明显的个人特征就是她的长直发，所以用了这个剪影融合进了舞字，以水月老师为舞的一部分，融入舞蹈也提现了舞者水月。</p>
+                <img onclick='shadeIn(this)' height='100' class='existImg' src="https://thumbnail1.baidupcs.com/thumbnail/4564b797do44efc4e6f474f446a351d0?fid=3154327563-250528-296887483287623&time=1597410000&rt=yt&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-%2BcBliG2Ns1n%2BT2evRJa6MCg85as%3D&expires=24h&chkv=0&chkbd=0&chkpc=&dp-logid=2646493016&dp-callid=0&size=c1440_u900&quality=90&vuk=-&ft=video&autopolicy=1"><br><hr>
+
+                <input name="vote-line" type="radio" value="2"/>
+                <label>选项2</label><br>
+                <p>设计思路:整体采用了水月老师名字和Mooney的结合设计。前面是水月老师的名字，后面是Mooney，中间的眼镜是Mooney的oo也是浦总的墨镜。</p>
+                <img onclick='shadeIn(this)' height='100' class='existImg' src="https://thumbnail8.baidupcs.com/thumbnail/030e46f10n92cde9b36bc810d79f3723?fid=3154327563-250528-341750021686026&time=1597410000&rt=yt&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-Pn%2Fy8XjnNfQaWLTzY%2BWkvBd9AiE%3D&expires=24h&chkv=0&chkbd=0&chkpc=&dp-logid=2646493016&dp-callid=0&size=c1440_u900&quality=90&vuk=-&ft=video&autopolicy=1"><br><hr>
+
+                <input name="vote-line" type="radio" value="3"/>
+                <label>选项3</label><br>
+                <p>设计思路:整体使用水月老师的q版画像为主要设计元素，以肖老师的名字和Mooney组成的艺术签名为辅，蓝色的底边加泡泡代表水，胸口的月亮代表月，组成水月，然后背面的字的含义是与其一直原地等待她们的到来，不如跟随她们的脚步，让我们一起变成更优秀的人。</p>
+                <img onclick='shadeIn(this)' height='100' class='existImg' src="https://thumbnail8.baidupcs.com/thumbnail/f59d0c31du89eeab35cf51e59d0e91e5?fid=3154327563-250528-262589964953195&time=1597410000&rt=yt&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-Q05INPU0vwr%2FNA3NrPoHSsywhLY%3D&expires=24h&chkv=0&chkbd=0&chkpc=&dp-logid=2646493016&dp-callid=0&size=c1440_u900&quality=90&vuk=-&ft=video&autopolicy=1"><br><hr>
+
+                <input name="vote-line" type="radio" value="4"/>
+                <label>选项4</label><br>
+                <p>设计思路:如图所示</p>
+                <img onclick='shadeIn(this)' height='100' class='existImg' src="https://thumbnail4.baidupcs.com/thumbnail/51e297ae0k9d90640f38392d159f1cdd?fid=3154327563-250528-230737905189906&time=1597410000&rt=yt&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-ye20aBgj7D9Kh%2Ff0MwrwovmcO4g%3D&expires=24h&chkv=0&chkbd=0&chkpc=&dp-logid=2646493016&dp-callid=0&size=c1440_u900&quality=90&vuk=-&ft=video&autopolicy=1"><br><hr>
+
             </div>
             <button id="vote" class="btn btn-primary btn-lg btn-block" type="button">投票</button>
+
         </div>
         <div class="col-sm">
         </div>
@@ -121,7 +142,7 @@
     }
 
     $(document).ready(function () {
-        var formId = getQueryVariable("formId");
+        var formId = 998;
         var token = $.cookie("login_token");
         var needLogin = false;
         if (token == undefined || token == null) {
@@ -158,34 +179,38 @@
             // username = decodeURI(username);
             // $("#username").html("你好：" + username + "&nbsp;<a onclick='exit()'>切换</a>");
             var uid = $.cookie('wb_uid1');
+            if (uid == undefined) {
+                alert("您尚未登录微博");
+                exit();
+            }
             $("#username").html("微博用户" + uid + "&nbsp;<a onclick='exit()'>切换</a>");
 
-            $.ajax({
-                type: "POST",
-                url: "/vote/detail",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({formId: formId}),
-                success: function (data) {
-                    var lineList = data.contentList;
-                    var html = "";
-                    for (var i = 0; i < lineList.length; i++) {
-                        var lineNum = i + 1;
-                        html += "<input name=\"vote-line\" type=\"radio\" value=\"" + lineList[i].id + "\"/>";
-                        html += "<label>选项" + lineNum + "</label><br>";
-                        html += "<p>" + lineList[i].lineText + "</p>";
-                        html += "<img onclick='shadeIn(this)' height='100' class='existImg' src=" + lineList[i].linePic + "><br><hr>";
-                    }
-                    $("#existData").html(html);
-                    $("#title").html(data.voteName);
-                }
-            });
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/vote/detail",
+            //     dataType: "json",
+            //     contentType: "application/json; charset=utf-8",
+            //     data: JSON.stringify({formId: formId}),
+            //     success: function (data) {
+            //         var lineList = data.contentList;
+            //         var html = "";
+            //         for (var i = 0; i < lineList.length; i++) {
+            //             var lineNum = i + 1;
+            //             html += "<input name=\"vote-line\" type=\"radio\" value=\"" + lineList[i].id + "\"/>";
+            //             html += "<label>选项" + lineNum + "</label><br>";
+            //             html += "<p>" + lineList[i].lineText + "</p>";
+            //             html += "<img onclick='shadeIn(this)' height='100' class='existImg' src=" + lineList[i].linePic + "><br><hr>";
+            //         }
+            //         $("#existData").html(html);
+            //         $("#title").html(data.voteName);
+            //     }
+            // });
         }
 
     });
 
     $('#vote').click(function () {
-        var formId = getQueryVariable("formId");
+        var formId = 998;
         var id = $('input:radio:checked').val();
         if (id == undefined || id == null) {
             alert("请选好再投哦");

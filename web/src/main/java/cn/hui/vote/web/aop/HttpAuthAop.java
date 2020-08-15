@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import cn.hui.vote.common.exception.ApiErrorCode;
 import cn.hui.vote.web.domain.BaseRequest;
 import cn.hui.vote.web.domain.ResponseBean;
+import com.alibaba.fastjson.JSON;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -66,13 +67,13 @@ public class HttpAuthAop {
 //                JSON.toJSONString(response), e);
         } catch (Throwable t) {
 //            response = handleException(ApiErrorCode.SYSTEM_ERROR);
-            LOGGER.error("Http request {} error, args: {}, start: {}, proc time: {}", methodFullName, Arrays.toString(args),
-                 start, (System.currentTimeMillis() - start), t);
+            LOGGER.error("Http request {} error, args: {}, resp:{}, start: {}, proc time: {}", methodFullName, Arrays.toString(args),
+                    JSON.toJSONString(response), start, (System.currentTimeMillis() - start), t);
             throw t;
         } finally {
             String argsString = Arrays.toString(args);
-            LOGGER.info("Http request {} finish, args: {}, start: {}, proc time: {}", methodFullName, argsString,
-                 start, (System.currentTimeMillis() - start));
+            LOGGER.info("Http request {} finish, args: {}, resp:{} start: {}, proc time: {}", methodFullName, argsString,
+                    JSON.toJSONString(response), start, (System.currentTimeMillis() - start));
         }
 
         return response;

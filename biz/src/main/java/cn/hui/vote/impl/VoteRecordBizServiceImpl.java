@@ -36,13 +36,13 @@ public class VoteRecordBizServiceImpl implements VoteRecordBizService {
     @Override
     public void vote(VoteRecordBO voteRecordBO) {
         Long formId = voteRecordBO.getFormId();
-        VoteFormDO voteFormDO = voteFormMapper.selectByPrimaryKey(formId);
-        if (voteFormDO.getMultiVote() == 0) {
-            String vote = voteRecordBO.getVote();
-            if (vote.contains(",")) {
-                throw new BizException(ApiErrorCode.VOTE_NOT_ALLOW_MULTI_ERORR);
-            }
-        }
+//        VoteFormDO voteFormDO = voteFormMapper.selectByPrimaryKey(formId);
+//        if (voteFormDO.getMultiVote() == 0) {
+//            String vote = voteRecordBO.getVote();
+//            if (vote.contains(",")) {
+//                throw new BizException(ApiErrorCode.VOTE_NOT_ALLOW_MULTI_ERORR);
+//            }
+//        }
         VoteRecordDO voteRecordDO = BeanUtil.copy(voteRecordBO, VoteRecordDO.class);
         voteRecordMapper.insertSelective(voteRecordDO);
     }

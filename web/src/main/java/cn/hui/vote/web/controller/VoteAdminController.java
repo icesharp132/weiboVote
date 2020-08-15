@@ -67,18 +67,25 @@ public class VoteAdminController {
         Map<String, Integer> result = new HashMap<>();
         for (VoteRecordBO recordBO : recordBOList) {
             String vote = recordBO.getVote();
-            String[] voteArr = vote.split(",");
-            for (String contenIdStr : voteArr) {
-                long contentId = Long.parseLong(contenIdStr);
-                VoteContentBO contentBO = voteBizService.getVoteFormContent(contentId);
-                Integer count = result.get(contentBO.getLineText());
-                if (count == null) {
-                    count = 1;
-                } else {
-                    count++;
-                }
-                result.put(contentBO.getLineText(), count);
+//            String[] voteArr = vote.split(",");
+//            for (String contenIdStr : voteArr) {
+//                long contentId = Long.parseLong(contenIdStr);
+//                VoteContentBO contentBO = voteBizService.getVoteFormContent(contentId);
+//                Integer count = result.get(contentBO.getLineText());
+//                if (count == null) {
+//                    count = 1;
+//                } else {
+//                    count++;
+//                }
+//                result.put(contentBO.getLineText(), count);
+//            }
+            Integer count = result.get("选项" + vote);
+            if (count == null) {
+                count = 1;
+            } else {
+                count++;
             }
+            result.put("选项" + vote, count);
         }
         return result;
     }
